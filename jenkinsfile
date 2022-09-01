@@ -1,0 +1,47 @@
+#!groovy
+
+
+
+pipeline {
+
+agent none
+
+stages {
+
+stage('Maven Install') {
+
+agent {
+
+docker {
+
+image 'maven:3.5.0'
+
+}
+
+}
+
+steps {
+
+echo "We are building dockerapp"
+
+}
+
+}
+
+stage('Docker Build') {
+
+agent any
+
+steps {
+
+sh 'docker build -t shreya-app:latest .'
+
+sh 'docker run -p 8181:80 -d shreya-app:latest'
+
+}
+
+}
+
+}
+
+}
